@@ -16,4 +16,30 @@
     font-family: 'Poppins', sans-serif;
   }
 
+  .big-text{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bolder;
+    color: #7101A6;
+    font-size: 60px;
+  }
+
+  .mid-text{
+    font-family: 'Poppins', sans-serif;
+    color: #7101A6;
+    font-size: 45px;
+  }
+
+  .img-container{
+    display:flex;    
+    justify-content: flex-end;
+    width: 100%;
+
+  }
+  .img-style{
+    height: 200px;
+    width: 200px;
+  }
+
+
+
 
