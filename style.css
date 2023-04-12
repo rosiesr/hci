@@ -7,7 +7,7 @@
     width: 100%;
   }
 
-  #lilac-container {
+  .lilac-container {
     background-color: #F6EAFF;
     color: #7101A6;
     display: flex;
