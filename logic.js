@@ -5,21 +5,88 @@ $(document).ready(function() {
   frames.start();
 });
 
+const START = 0;
+const TUTORIAL = 1;
+const NUMUSERS = 2;
+const ACCOMPLISHMENTS = 3;
+const COMPLIMENT = 4;
+const POWER_POSE_INSTRUCTIONS = 5;
+const POWER_POSE = 6;
+const CONCLUSION = 7;
+
 let frames = {
   socket: null,
+  timer_end: null,
+  wait_ms: null,
+  app_state: START,
 
   start: function() {
     let url = "ws://" + host + "/frames";
     frames.socket = new WebSocket(url);
     frames.socket.onmessage = function (event) {
-      let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
-      let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
 
-      // let command = frames.get_left_wrist_command(JSON.parse(event.data));
-      // if (command !== null) {
-      //   sendWristCommand(command);
-      // }
+      switch(app_state) {
+        case START:
+          let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
+          if (user_raising_hand) {
+            app_state = TUTORIAL;
+          }
+          break;
+        case TUTORIAL:
+          let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
+          if (user_t_posing) {
+            app_state = NUMUSERS;
+          }
+          break;
+        case NUMUSERS:
+          wait_and_transition(10000, ACCOMPLISHMENTS, event);
+          break;
+        case ACCOMPLISHMENTS:
+          wait_and_transition(10000, COMPLIMENT, event);
+          break;
+        case COMPLIMENT:
+          wait_and_transition(8000, POWER_POSE_INSTRUCTIONS, event);
+          break;
+        case POWER_POSE_INSTRUCTIONS:
+          wait_and_transition(10000, POWER_POSE, event);
+          break;
+        case POWER_POSE:
+          wait_and_transition(20000, CONCLUSION, event);
+          break;
+        case CONCLUSION:
+          wait_and_transition(8000, START, event);
+          break;
+      }
     }
+  },
+
+  wait_and_transition: function (wait_ms, dest_state, event) {
+    frames.wait_ms = wait_ms;
+    if (frames.is_wait_over(frames.timer, frames.wait_ms)) {
+      frames.app_state = dest_state;
+      frames.timer = null;
+      frames.timer_end = null;
+      frames.wait_ms = null;
+    } else {
+      let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
+      if (user_t_posing) {
+        frames.app_state = START;
+      }
+    }
+  },
+
+  is_wait_over: function (timer, wait_ms) {
+    if (!timer) {
+      frames.timer = new Date().getTime();
+      frames.timer_end = timer + wait_ms;
+      return false;
+    }
+    
+    if (timer < timer_end) {
+      return false;
+    } 
+    
+    return true;
   },
 
   is_user_raising_hand: function (frame) {
