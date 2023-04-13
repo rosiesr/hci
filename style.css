@@ -39,10 +39,8 @@
     height: 200px;
     width: 200px;
   }
-
   ol li {
     min-height: 25.7vh;
     font-size: 30px;
-    line-height: 1em;
     color: #7101A6;
   }
