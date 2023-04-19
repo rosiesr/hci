@@ -6,87 +6,109 @@ $(document).ready(function() {
 });
 
 const START = 0;
+const startFile = "0start.html";
 const TUTORIAL = 1;
+const tutorialFile = "1tutorial.html";
 const NUMUSERS = 2;
+const numUsersFile = "2numUsers.html";
 const ACCOMPLISHMENTS = 3;
+const accomplishmentsFile = "3accomplishments.html";
 const COMPLIMENT = 4;
+const complimentFile = "4compliment.html";
 const POWER_POSE_INSTRUCTIONS = 5;
+const powerPoseInstructionsFile = "5powerPoseInstructions.html";
 const POWER_POSE = 6;
+const powerPoseFile = "6powerPose.html";
 const CONCLUSION = 7;
+const conclusionFile = "7conclusion.html";
 
 let frames = {
   socket: null,
   timer_end: null,
-  wait_ms: null,
   app_state: START,
+  prev_state: null,
 
   start: function() {
     let url = "ws://" + host + "/frames";
     frames.socket = new WebSocket(url);
     frames.socket.onmessage = function (event) {
 
-      switch(app_state) {
+      switch(frames.app_state) {
         case START:
-          let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
-          if (user_raising_hand) {
-            app_state = TUTORIAL;
-          }
+          frames.set_page(startFile);
+          frames.wait_and_transition(5, TUTORIAL, event);
+          // let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
+          // if (user_raising_hand) {
+          //   frames.transition_to_state(TUTORIAL);
+          // }
           break;
         case TUTORIAL:
-          let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
-          if (user_t_posing) {
-            app_state = NUMUSERS;
-          }
+          frames.set_page(tutorialFile);
+          frames.wait_and_transition(5, NUMUSERS, event);
+          // let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
+          // if (user_t_posing) {
+          //   console.log("t pose detected in tutorial");
+          //   frames.transition_to_state(NUMUSERS);
+          // }
           break;
         case NUMUSERS:
-          wait_and_transition(10000, ACCOMPLISHMENTS, event);
+          frames.set_page(numUsersFile);
+          frames.wait_and_transition(5, ACCOMPLISHMENTS, event);
           break;
         case ACCOMPLISHMENTS:
-          wait_and_transition(10000, COMPLIMENT, event);
+          frames.set_page(accomplishmentsFile);
+          frames.wait_and_transition(5, COMPLIMENT, event);
           break;
         case COMPLIMENT:
-          wait_and_transition(8000, POWER_POSE_INSTRUCTIONS, event);
+          frames.set_page(complimentFile);
+          frames.wait_and_transition(5, POWER_POSE_INSTRUCTIONS, event);
           break;
         case POWER_POSE_INSTRUCTIONS:
-          wait_and_transition(10000, POWER_POSE, event);
+          frames.set_page(powerPoseInstructionsFile);
+          frames.wait_and_transition(5, POWER_POSE, event);
           break;
         case POWER_POSE:
-          wait_and_transition(20000, CONCLUSION, event);
+          frames.set_page(powerPoseFile);
+          frames.wait_and_transition(5, CONCLUSION, event);
           break;
         case CONCLUSION:
-          wait_and_transition(8000, START, event);
+          frames.set_page(conclusionFile);
+          frames.wait_and_transition(5, START, event);
           break;
       }
     }
   },
 
-  wait_and_transition: function (wait_ms, dest_state, event) {
-    frames.wait_ms = wait_ms;
-    if (frames.is_wait_over(frames.timer, frames.wait_ms)) {
-      frames.app_state = dest_state;
-      frames.timer = null;
-      frames.timer_end = null;
-      frames.wait_ms = null;
-    } else {
-      let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
-      if (user_t_posing) {
-        frames.app_state = START;
-      }
+  set_page: function (file) {
+    if (frames.prev_state != frames.app_state) {
+      window.location.replace(file);
     }
   },
 
-  is_wait_over: function (timer, wait_ms) {
-    if (!timer) {
-      frames.timer = new Date().getTime();
-      frames.timer_end = timer + wait_ms;
-      return false;
+  transition_to_state: function (state) {
+    frames.prev_state = frames.app_state;
+    frames.app_state = state;
+  },
+
+  wait_and_transition: function (wait_in_s, state, event) {
+    if (!frames.timer_end) {
+      frames.timer_end = new Date().getTime() + (wait_in_s *  1000);
+      return;
     }
     
-    if (timer < timer_end) {
-      return false;
-    } 
-    
-    return true;
+    currentTime = new Date().getTime();
+    if (currentTime >= frames.timer_end) {
+      frames.timer_end = null;
+      frames.transition_to_state(state);
+      return;
+    } else { // t pose detection always true, disabled for now
+      // let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
+      // if (user_t_posing) {
+      //   frames.timer_end = null;
+      //   frames.transition_to_state(START);
+      // }
+      return;
+    }
   },
 
   is_user_raising_hand: function (frame) {
