@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3 - Compliment User</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="numUsers.css">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <script src="logic.js"></script>
+
+    <!-- Special CSS for compliments page. Done in-file to take precedence over external stylesheet. -->
+        <style>
+            .compliments-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin-bottom: 300px;
+            }
+            .lilac-container {
+                background-color: #F6EAFF;
+                color: #7101A6;
+                width: 80%;
+                height: 15%;
+                font-weight: bold;
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 20px;
+                position: absolute;
+                font-family: 'Poppins', sans-serif;
+            }
+        </style>
+  </head>
+  <body style="background:url(https://pngimg.com/uploads/confetti/confetti_PNG87070.png);background-size:cover;">
+    <div class="container">
+		<div class="header">
+      <div class="container restart">
+        <img src="restart.png" style="height: 80px; width: 80px;" class="img-style">
+        <img class="img-style" style="height: 80px; width: 55px;" src="t_position.png">
+      </div>
+    </div>
+    <div class="compliments-container">
+        
+		<div class="lilac-container">
+			<p>Dear player 1, You are an inspiration to others. </p>
+		</div>
+	</div>
+	</div>
+
+	<script>
+		const n = NUMUSERS; // Load in number of users from logic file
+
+		// Compliment messages up to 4 players 
+		const texts = [
+            "Dear player 1, You are an inspiration to others.",
+			"Dear player 2, Your creativity knows no bounds.",
+			"Dear player 3, You have a heart of gold.",
+			"Dear player 4, Your kindness makes the world a better place.",
+		];
+
+		// Map out n compliments 
+		for(let i=1; i<n; i++) {
+			const div = document.querySelector('.lilac-container').cloneNode(true);
+			const p = div.querySelector('p');
+			p.textContent = texts[i % texts.length];
+			document.querySelector('.compliments-container').appendChild(div);
+
+			// 10px vertical spacing for each compliment div
+			const prevDiv = document.querySelectorAll('.lilac-container')[i-1];
+			div.style.transform = `translateY(${i*10}px)`;
+			div.style.top = prevDiv.offsetTop + prevDiv.offsetHeight + 10 + 'px';
+		}
+	</script>
+  </body>
+</html>

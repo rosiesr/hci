@@ -2,7 +2,7 @@
 //
 let host = "cpsc484-04.yale.internal:8888";
 $(document).ready(function() {
-  frames.start();
+  // frames.start();            //Commented this out for testing purposes but in production must uncomment 
 });
 
 const START = 0;
