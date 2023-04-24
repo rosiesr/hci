@@ -44,3 +44,29 @@
     font-size: 30px;
     color: #7101A6;
   }
+
+.restart{
+    position: fixed;
+    left: 10;
+    height: 80px;
+    width: 200px;
+    flex-flow: row;
+}
+
+.img-style{
+  display: flex;
+
+}
+
+.restart-t {
+  font-size: 24px;
+  top: 0;
+  position: fixed;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.col{
+  flex-direction: column;
+}
