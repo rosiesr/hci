@@ -56,35 +56,35 @@ let frames = {
           let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
           if (user_raising_hand) {
             console.log("hand raised in start");
-            frames.transition(TUTORIAL, tutorialFile);
+            frames.transition(TUTORIAL, tutorialFile, event);
           }
           break;
         case TUTORIAL:
           let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
           if (user_t_posing) {
-            frames.transition(NUMUSERS, numUsersFile);
+            frames.transition(NUMUSERS, numUsersFile, event);
           }
           break;
         case NUMUSERS:
           current_position = frames.get_user_position(JSON.parse(event.data));
           frames.num_users = current_position;
-          frames.wait_and_transition(10, ACCOMPLISHMENTS, accomplishmentsFile);
+          frames.wait_and_transition(10, ACCOMPLISHMENTS, accomplishmentsFile, event);
           break;
         case ACCOMPLISHMENTS:
           current_position = frames.get_user_position(JSON.parse(event.data));
-          frames.wait_and_transition(12, COMPLIMENT, complimentFile);
+          frames.wait_and_transition(12, COMPLIMENT, complimentFile, event);
           break;
         case COMPLIMENT:
-          frames.wait_and_transition(6, POWER_POSE_INSTRUCTIONS, powerPoseInstructionsFile);
+          frames.wait_and_transition(6, POWER_POSE_INSTRUCTIONS, powerPoseInstructionsFile, event);
           break;
         case POWER_POSE_INSTRUCTIONS:
-          frames.wait_and_transition(10, POWER_POSE, powerPoseFile);
+          frames.wait_and_transition(10, POWER_POSE, powerPoseFile, event);
           break;
         case POWER_POSE:
-          frames.wait_and_transition(5, CONCLUSION, conclusionFile);
+          frames.wait_and_transition(5, CONCLUSION, conclusionFile, event);
           break;
         case CONCLUSION:
-          frames.wait_and_transition(6, START, startFile);
+          frames.wait_and_transition(6, START, startFile, event);
           break;
       }
     }
