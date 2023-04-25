@@ -51,12 +51,9 @@
 	</div>
 
 	<script>
-  var n = 0;
-if (queryParams.has('num_users')) {
-    n = parseInt(queryParams.get('num_users'));
-    } else {
-      n = 1;
-    }
+    const queryParams = new URLSearchParams(window.location.search);
+    // Set the number of poses to display
+    var n = parseInt(queryParams.get('num_users'));
     
 
 		// Compliment messages up to 4 players 

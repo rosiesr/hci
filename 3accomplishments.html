@@ -18,13 +18,49 @@
       <div class="prompt"> What did you accomplish today? </div>
     </div>
 		<div class="sections">
-			<div class="section">Option 1</div>
-			<div class="section">Option 2</div>
-			<div class="section">Option 3</div>
-			<div class="section">Option 4</div>
+			<div id="div1" class="section">     I went to class today     </div>
+			<div id="div2" class="section">I had a meaningful conversation</div>
+			<div id="div3" class="section"> I got out of bed this morning </div>
+			<div id="div4" class="section"> I worked out and drank water </div>
 		</div>
 		<div class="bottom">All participants should stand in the same segment to select an answer</div>
 	</div>
     <script src="logic.js"></script>
+    <script>
+      const glutenFree = () => {
+      console.log(current_position);
+      var div1 = document.getElementById("div1");
+      var div2 = document.getElementById("div2");
+      var div3 = document.getElementById("div3");
+      var div4 = document.getElementById("div4");
+
+
+      if(current_position != 1){
+        div1.style.backgroundColor = "#FFFFFF";
+      } else{
+        div1.style.backgroundColor = "#F6EAFF";
+      }
+
+      if(current_position != 2){
+        div2.style.backgroundColor = "#FFFFFF";
+      } else{
+        div2.style.backgroundColor = "#F6EAFF";
+      }
+
+      if(current_position != 3){
+        div3.style.backgroundColor = "#FFFFFF";
+      } else{
+        div3.style.backgroundColor = "#F6EAFF";
+      }
+
+      if(current_position != 4){
+        div4.style.backgroundColor = "#FFFFFF";
+      } else{
+        div4.style.backgroundColor = "#F6EAFF";
+      }
+    }
+      setInterval(glutenFree, 100);
+
+      </script>
   </body>
 </html>

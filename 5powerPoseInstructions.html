@@ -30,12 +30,9 @@
     
 	<script>
         // Load in number of users from logic file
-        var n= 1;
-        if (queryParams.has('num_users')) {
-            n = parseInt(queryParams.get('num_users'));
-            } else {
-                n = 1;
-            }
+        const queryParams = new URLSearchParams(window.location.search);
+        // Set the number of poses to display
+        var n = parseInt(queryParams.get('num_users'));
 
         // Instructions for single vs. multp players
         const single_player_txt = "Copy the power poses in order to get empowered.";

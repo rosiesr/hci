@@ -28,37 +28,39 @@
 	</div>
     <script src="logic.js"></script>
     <script>
+      const glutenFree = () => {
       console.log(current_position);
       var div1 = document.getElementById("div1");
-      // console.log(div1);
       var div2 = document.getElementById("div2");
       var div3 = document.getElementById("div3");
       var div4 = document.getElementById("div4");
 
 
-      if(current_position == 1){
-        div1.style.color = "#000000";
+      if(current_position != 1){
+        div1.style.backgroundColor = "#FFFFFF";
       } else{
-        div1.style.color = "#7101A6";
+        div1.style.backgroundColor = "#F6EAFF";
       }
 
-      if(current_position == 2){
-        div2.style.color = "black";
+      if(current_position != 2){
+        div2.style.backgroundColor = "#FFFFFF";
       } else{
-        div2.style.color = "#7101A6";
+        div2.style.backgroundColor = "#F6EAFF";
       }
 
-      if(current_position == 3){
-        div3.style.color = "black";
+      if(current_position != 3){
+        div3.style.backgroundColor = "#FFFFFF";
       } else{
-        div3.style.color = "#7101A6";
+        div3.style.backgroundColor = "#F6EAFF";
       }
 
-      if(current_position == 4){
-        div4.style.color = "black";
+      if(current_position != 4){
+        div4.style.backgroundColor = "#FFFFFF";
       } else{
-        div4.style.color = "#7101A6";
+        div4.style.backgroundColor = "#F6EAFF";
       }
+    }
+      setInterval(glutenFree, 100);
 
       </script>
   </body>
