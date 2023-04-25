@@ -29,7 +29,7 @@ let frames = {
   num_users: null,
 
   start: function() {
-    print("querying params");
+    console.log("querying params");
     const queryParams = new URLSearchParams(window.location.search);
     if (queryParams.has('app_state')) {
       frames.app_state = parseInt(queryParams.get('app_state'));
@@ -93,7 +93,7 @@ let frames = {
 
   transition: function (state, file) {
     // console.log("Transitioning from " + frames.app_state + "to " + state);
-    window.location.href = `${file}?appState=${state}&numUsers=${frames.num_users}`;
+    window.location.href = `${file}?app_state=${state}&num_users=${frames.num_users}`;
   },
 
   wait_and_transition: function (wait_in_s, state, file) {
