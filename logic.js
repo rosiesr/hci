@@ -2,7 +2,7 @@
 //
 let host = "cpsc484-04.yale.internal:8888";
 $(document).ready(function() {
-  // frames.start();            //Commented this out for testing purposes but in production must uncomment 
+  frames.start();            //Commented this out for testing purposes but in production must uncomment 
 });
 
 const START = 0;
@@ -26,7 +26,7 @@ let frames = {
   socket: null,
   timer_end: null,
   app_state: START,
-  prev_state: null,
+  prev_state: START,
 
   start: function() {
     let url = "ws://" + host + "/frames";
@@ -37,15 +37,19 @@ let frames = {
         case START:
           frames.set_page(startFile);
           frames.wait_and_transition(5, TUTORIAL, event);
-          // let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
-          // if (user_raising_hand) {
-          //   frames.transition_to_state(TUTORIAL);
-          // }
+          let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
+          // console.log("user_raising_hand: " + user_raising_hand);
+          if (user_raising_hand) {
+            console.log("hand raised in start");
+            frames.transition_to_state(TUTORIAL);
+          }
           break;
         case TUTORIAL:
+          // console.log("in tutorial");
           frames.set_page(tutorialFile);
           frames.wait_and_transition(5, NUMUSERS, event);
           // let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
+          // console.log("t pose checked");
           // if (user_t_posing) {
           //   console.log("t pose detected in tutorial");
           //   frames.transition_to_state(NUMUSERS);
@@ -65,7 +69,7 @@ let frames = {
           break;
         case POWER_POSE_INSTRUCTIONS:
           frames.set_page(powerPoseInstructionsFile);
-          frames.wait_and_transition(5, POWER_POSE, event);
+          frames.wait_and_transition(5, CONCLUSION, event);
           break;
         case POWER_POSE:
           frames.set_page(powerPoseFile);
@@ -101,13 +105,13 @@ let frames = {
       frames.timer_end = null;
       frames.transition_to_state(state);
       return;
-    } else { // t pose detection always true, disabled for now
+    } else {
       // let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
       // if (user_t_posing) {
       //   frames.timer_end = null;
       //   frames.transition_to_state(START);
       // }
-      return;
+      // return;
     }
   },
 
@@ -146,15 +150,23 @@ let frames = {
 
     // Normalize by subtracting the root (pelvis) joint coordinates
     let pelvis_x = frame.people[0].joints[0].position.x;
-    let hand_left_x = (frame.people[0].joints[8].position.x - pelvis_x) * -1;
-    let shoulder_left_x = (frame.people[0].joints[5].position.x - pelvis_x) * -1;
-    let hand_right_x = (frame.people[0].joints[15].position.x - pelvis_x) * -1;
-    let shoulder_right_x = (frame.people[0].joints[12].position.x - pelvis_x) * -1;
+    let pelvis_y = frame.people[0].joints[0].position.y;
 
-    left_arm_in_line = ((hand_left_x - 50 < shoulder_left_x) || (hand_left_x + 50 > shoulder_left_x));
-    right_arm_in_line = ((hand_right_x - 50 < shoulder_right_x) || (hand_right_x + 50 > shoulder_right_x)); 
-    // had a check for left_and_right_arms_in_line before, but if left and right are in line alone they should already be in line with eachother
-    if (left_arm_in_line && right_arm_in_line) {
+    let hand_left_x = (frame.people[0].joints[8].position.x - pelvis_x) * -1;
+    let hand_left_y = (frame.people[0].joints[8].position.y - pelvis_y) * -1;
+
+    let hand_right_x = (frame.people[0].joints[15].position.x - pelvis_x) * -1;
+    let hand_right_y = (frame.people[0].joints[15].position.y - pelvis_y) * -1;
+
+    let shoulder_left_y =(frame.people[0].joints[5].position.y - pelvis_y) * -1;
+    let shoulder_right_y = (frame.people[0].joints[12].position.y - pelvis_y) * -1;
+
+    // shoulder
+    hands_out_to_side = hand_right_x > 200 && hand_left_x < -200;
+    right_arm_in_line = hand_right_y - 50 < shoulder_right_y && hand_right_y + 50 > shoulder_right_y;
+    left_arm_in_line = hand_left_y - 50 < shoulder_left_y && hand_left_y + 50 > shoulder_left_y;
+
+    if (hands_out_to_side && left_arm_in_line && right_arm_in_line) {
       console.log("t-pose detected!");
       return true;
     }
