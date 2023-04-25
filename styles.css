@@ -92,4 +92,11 @@ body {
     height: 50px;
     margin-right: 10px;
   }
+
+  .big-text{
+    font-family: 'Poppins', sans-serif;
+    font-weight: bolder;
+    color: #7101A6;
+    font-size: 60px;
+  }
   
