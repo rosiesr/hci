@@ -132,6 +132,8 @@ let frames = {
 
     let pelvis_x = frame.people[0].joints[0].position.x;
 
+    console.log(pelvis_x);
+
     if (pelvis_x < 320) {
       return 1;
     } else if (pelvis_x < 640) {
