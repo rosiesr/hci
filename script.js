@@ -6,8 +6,10 @@ var poses = [
 	"pose4.jpg"
 ];
 
+const queryParams = new URLSearchParams(window.location.search);
+
 // Set the number of poses to display
-var num_users = 3;
+var num_users = parseInt(queryParams.get('num_users'));
 
 // Set the initial pose images and page number
 var imageIndexes = [];
@@ -34,7 +36,7 @@ var timer = setInterval(function() {
 		poseChanges++;
 		if (poseChanges === 3) {
 			clearInterval(timer);
-			window.location.href = "/";
+			window.location.href = "7conclusion.html?app_state=7";
 		} else {
 			for (var i = 0; i < num_users; i++) {
 				var imageIndex = Math.floor(Math.random() * poses.length);
