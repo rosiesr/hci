@@ -26,28 +26,24 @@ let frames = {
   socket: null,
   timer_end: null,
   app_state: START,
-  prev_state: START,
 
   start: function() {
     let url = "ws://" + host + "/frames";
     frames.socket = new WebSocket(url);
     frames.socket.onmessage = function (event) {
-
       switch(frames.app_state) {
         case START:
-          frames.set_page(startFile);
-          frames.wait_and_transition(5, TUTORIAL, event);
-          let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
-          // console.log("user_raising_hand: " + user_raising_hand);
-          if (user_raising_hand) {
-            console.log("hand raised in start");
-            frames.transition_to_state(TUTORIAL);
-          }
+          frames.wait_and_transition(5, TUTORIAL, tutorialFile);
+          // let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
+          // // console.log("user_raising_hand: " + user_raising_hand);
+          // if (user_raising_hand) {
+          //   console.log("hand raised in start");
+          //   frames.transition(TUTORIAL, tutorialFile);
+          // }
           break;
         case TUTORIAL:
           // console.log("in tutorial");
-          frames.set_page(tutorialFile);
-          frames.wait_and_transition(5, NUMUSERS, event);
+          frames.wait_and_transition(5, NUMUSERS, numUsersFile);
           // let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
           // console.log("t pose checked");
           // if (user_t_posing) {
@@ -56,54 +52,45 @@ let frames = {
           // }
           break;
         case NUMUSERS:
-          frames.set_page(numUsersFile);
-          frames.wait_and_transition(5, ACCOMPLISHMENTS, event);
+          frames.wait_and_transition(5, ACCOMPLISHMENTS, accomplishmentsFile);
           break;
         case ACCOMPLISHMENTS:
-          frames.set_page(accomplishmentsFile);
-          frames.wait_and_transition(5, COMPLIMENT, event);
+          frames.wait_and_transition(5, COMPLIMENT, complimentFile);
           break;
         case COMPLIMENT:
-          frames.set_page(complimentFile);
-          frames.wait_and_transition(5, POWER_POSE_INSTRUCTIONS, event);
+          frames.wait_and_transition(5, POWER_POSE_INSTRUCTIONS, powerPoseInstructionsFile);
           break;
         case POWER_POSE_INSTRUCTIONS:
-          frames.set_page(powerPoseInstructionsFile);
-          frames.wait_and_transition(5, CONCLUSION, event);
+          frames.wait_and_transition(5, POWER_POSE, powerPoseFile);
           break;
         case POWER_POSE:
-          frames.set_page(powerPoseFile);
-          frames.wait_and_transition(5, CONCLUSION, event);
+          frames.wait_and_transition(5, CONCLUSION, conclusionFile);
           break;
         case CONCLUSION:
-          frames.set_page(conclusionFile);
-          frames.wait_and_transition(5, START, event);
+          frames.wait_and_transition(5, START, startFile);
           break;
       }
     }
   },
 
-  set_page: function (file) {
-    if (frames.prev_state != frames.app_state) {
-      window.location.replace(file);
-    }
-  },
-
-  transition_to_state: function (state) {
-    frames.prev_state = frames.app_state;
+  transition: function (state, file) {
+    console.log("Transitioning from " + frames.app_state + "to " + state);
     frames.app_state = state;
+    console.log("New state: " + frames.app_state)
+    window.location.href = file;
   },
 
-  wait_and_transition: function (wait_in_s, state, event) {
+  wait_and_transition: function (wait_in_s, state, file) {
     if (!frames.timer_end) {
       frames.timer_end = new Date().getTime() + (wait_in_s *  1000);
       return;
     }
+    console.log(frames.timer_end - new Date().getTime());
     
     currentTime = new Date().getTime();
     if (currentTime >= frames.timer_end) {
       frames.timer_end = null;
-      frames.transition_to_state(state);
+      frames.transition(state, file);
       return;
     } else {
       // let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
