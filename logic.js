@@ -74,11 +74,10 @@ let frames = {
           current_position = frames.get_user_position(JSON.parse(event.data));
           frames.num_users = current_position;
           // console.log(frames.num_users);
-          frames.wait_and_transition(10, ACCOMPLISHMENTS, accomplishmentsFile);
+          // frames.wait_and_transition(10, ACCOMPLISHMENTS, accomplishmentsFile);
           break;
         case ACCOMPLISHMENTS:
           current_position = frames.get_user_position(JSON.parse(event.data));
-          frames.num_users = current_position;
           frames.wait_and_transition(10, COMPLIMENT, complimentFile);
           break;
         case COMPLIMENT:
@@ -102,7 +101,7 @@ let frames = {
     window.location.href = `${file}?app_state=${state}&num_users=${frames.num_users}`;
   },
 
-  wait_and_transition: function (wait_in_s, state, file) {
+  wait_and_transition: function (wait_in_s, state, file, event) {
     if (!frames.timer_end) {
       frames.timer_end = new Date().getTime() + (wait_in_s *  1000);
       return;
@@ -116,12 +115,12 @@ let frames = {
       frames.transition(state, file);
       return;
     } else {
-      // let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
-      // if (user_t_posing) {
-      //   frames.timer_end = null;
-      //   frames.transition_to_state(START);
-      // }
-      // return;
+      let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
+      if (user_t_posing) {
+        frames.timer_end = null;
+        frames.transition(START, startFile);
+      }
+      return;
     }
   },
 
@@ -134,14 +133,14 @@ let frames = {
 
     console.log(pelvis_x);
 
-    if (pelvis_x < 320) {
-      return 1;
-    } else if (pelvis_x < 640) {
-      return 2;
-    } else if (pelvis_x < 960) {
-      return 3;
-    } else {
+    if (pelvis_x < -80) {
       return 4;
+    } else if (pelvis_x < 480) {
+      return 3;
+    } else if (pelvis_x < 1040) {
+      return 2;
+    } else {
+      return 1;
     }
   },
 
