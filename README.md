@@ -24,9 +24,9 @@ This project addresses mental wellness on campus. The purpose is to provide a de
 
 ## Constraints
 This project has few constraints: 
--It requires enough physical space to perform the power poses
--If a user stands too far or too close to the display, it will not always function properly
--Only one person can be in the frame at a time when answering questions with spatial positioning. 
+*It requires enough physical space to perform the power poses
+*If a user stands too far or too close to the display, it will not always function properly
+*Only one person can be in the frame at a time when answering questions with spatial positioning. 
 
 ## Collaboration Record
 **Eric Sun:** For assignment 6, I worked on 3 different html pages as well as their corresponding css files and finished them completely. Specifically, I worked on the second(numUsers) page, the third (accomplishments) page, and the 6(powerPose) page. For the first two pages, it only required html and css, and the power pose page required javascript functionality. I met with the group at the TV to complete the project and helped debug and suggest ideas to structure our code. I helped test to make sure every part of our application connected well (contributing to the routing and passing of variables through url) and there were no final bugs once we connected all parts together. I then helped with adding the spatial functionality to our project.
