@@ -25,9 +25,27 @@ const conclusionFile = "7conclusion.html";
 let frames = {
   socket: null,
   timer_end: null,
-  app_state: START,
+  app_state: null,
+  num_users: null,
 
   start: function() {
+    print("querying params");
+    const queryParams = new URLSearchParams(window.location.search);
+    if (queryParams.has('app_state')) {
+      frames.app_state = parseInt(queryParams.get('app_state'));
+    } else {
+      frames.app_state = START;
+    }
+
+    if (queryParams.has('num_users')) {
+      frames.num_users = parseInt(queryParams.get('num_users'));
+    } else {
+      frames.num_users = 1;
+    }
+
+    console.log("frames.app_state: " + frames.app_state);
+    console.log("frames.num_users: " + frames.num_users);
+
     let url = "ws://" + host + "/frames";
     frames.socket = new WebSocket(url);
     frames.socket.onmessage = function (event) {
@@ -74,10 +92,8 @@ let frames = {
   },
 
   transition: function (state, file) {
-    console.log("Transitioning from " + frames.app_state + "to " + state);
-    frames.app_state = state;
-    console.log("New state: " + frames.app_state)
-    window.location.href = file;
+    // console.log("Transitioning from " + frames.app_state + "to " + state);
+    window.location.href = `${file}?appState=${state}&numUsers=${frames.num_users}`;
   },
 
   wait_and_transition: function (wait_in_s, state, file) {
@@ -89,6 +105,7 @@ let frames = {
     
     currentTime = new Date().getTime();
     if (currentTime >= frames.timer_end) {
+      console.log("Transitioning from " + frames.app_state + " to " + state);
       frames.timer_end = null;
       frames.transition(state, file);
       return;
