@@ -73,10 +73,12 @@ let frames = {
         case NUMUSERS:
           current_position = frames.get_user_position(JSON.parse(event.data));
           frames.num_users = current_position;
-          console.log(frames.num_users);
+          // console.log(frames.num_users);
           frames.wait_and_transition(10, ACCOMPLISHMENTS, accomplishmentsFile);
           break;
         case ACCOMPLISHMENTS:
+          current_position = frames.get_user_position(JSON.parse(event.data));
+          frames.num_users = current_position;
           frames.wait_and_transition(10, COMPLIMENT, complimentFile);
           break;
         case COMPLIMENT:
