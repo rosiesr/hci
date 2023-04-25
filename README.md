@@ -2,6 +2,7 @@
 This code implements a mental wellness app on the interactive system for [CPSC 484/584 Intro. to HCI](https://cpsc484-584-hci.gitlab.io/s23/project). The app supports the following key tasks, among some others:
 
 Task 1: Users can record small accomplishments through the display.
+
 Task 2: Users will perform superhero/power poses by following a sequence of poses displayed on the screen, which are intended to quickly reduce stress/anxiety.
 
 As for a technical overview, the app’s frontend is implemented using HTML5 and CSS3. The frontend is made dynamic through a backend implemented in JavaScript. Data is obtained via a WebSocket. 
