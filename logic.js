@@ -18,7 +18,7 @@ const complimentFile = "4compliment.html";
 const POWER_POSE_INSTRUCTIONS = 5;
 const powerPoseInstructionsFile = "5powerPoseInstructions.html";
 const POWER_POSE = 6;
-const powerPoseFile = "6powerPose.html";
+const powerPoseFile = "6powerpose.html";
 const CONCLUSION = 7;
 const conclusionFile = "7conclusion.html";
 
