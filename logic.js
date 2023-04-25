@@ -53,44 +53,38 @@ let frames = {
     frames.socket.onmessage = function (event) {
       switch(frames.app_state) {
         case START:
-          // frames.wait_and_transition(5, TUTORIAL, tutorialFile);
           let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
-          // console.log("user_raising_hand: " + user_raising_hand);
           if (user_raising_hand) {
             console.log("hand raised in start");
             frames.transition(TUTORIAL, tutorialFile);
           }
           break;
         case TUTORIAL:
-          // console.log("in tutorial");
-          // frames.wait_and_transition(5, NUMUSERS, numUsersFile);
           let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
           if (user_t_posing) {
-            console.log("t pose detected in tutorial");
             frames.transition(NUMUSERS, numUsersFile);
           }
           break;
         case NUMUSERS:
           current_position = frames.get_user_position(JSON.parse(event.data));
           frames.num_users = current_position;
-          // console.log(frames.num_users);
-          // frames.wait_and_transition(10, ACCOMPLISHMENTS, accomplishmentsFile);
+          frames.wait_and_transition(10, ACCOMPLISHMENTS, accomplishmentsFile);
           break;
         case ACCOMPLISHMENTS:
           current_position = frames.get_user_position(JSON.parse(event.data));
-          frames.wait_and_transition(10, COMPLIMENT, complimentFile);
+          frames.wait_and_transition(12, COMPLIMENT, complimentFile);
           break;
         case COMPLIMENT:
-          frames.wait_and_transition(5, POWER_POSE_INSTRUCTIONS, powerPoseInstructionsFile);
+          frames.wait_and_transition(6, POWER_POSE_INSTRUCTIONS, powerPoseInstructionsFile);
           break;
         case POWER_POSE_INSTRUCTIONS:
-          frames.wait_and_transition(5, POWER_POSE, powerPoseFile);
+          frames.wait_and_transition(10, POWER_POSE, powerPoseFile);
           break;
         case POWER_POSE:
           frames.wait_and_transition(5, CONCLUSION, conclusionFile);
           break;
         case CONCLUSION:
-          frames.wait_and_transition(5, START, startFile);
+          frames.wait_and_transition(6, START, startFile);
           break;
       }
     }
