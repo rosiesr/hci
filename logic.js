@@ -6,7 +6,7 @@ $(document).ready(function() {
 });
 
 const START = 0;
-const startFile = "0start.html";
+const startFile = "index.html";
 const TUTORIAL = 1;
 const tutorialFile = "1tutorial.html";
 const NUMUSERS = 2;
