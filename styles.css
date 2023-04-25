@@ -7,11 +7,13 @@ body {
 	justify-content: space-between;
 }
 
+
+
 #power-pose {
 	max-width: 600px;
-	margin: 20px auto;
+	margin: 60px auto;
 	text-align: center;
-	font-size: 24px;
+	font-size: 32px;
 	background-color: #F6EAFF;
 	color: #7101A6;
 	padding: 10px;
@@ -61,3 +63,33 @@ body {
 	background-color: #F6EAFF;
 	border-radius: 10px;
 }
+
+.pose-image {
+	max-width: 100%;
+	max-height: 300px;
+	display: block;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+#poses-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+    margin-bottom: 10rem;
+}
+
+#top-left-container {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 10px;
+  }
+  
+  #top-left-container img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  
