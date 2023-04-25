@@ -141,7 +141,7 @@ let frames = {
     } else if (pelvis_x < 960) {
       return 3;
     } else {
-      return 4;
+      return 3;
     }
   },
 
