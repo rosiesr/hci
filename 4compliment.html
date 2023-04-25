@@ -51,7 +51,13 @@
 	</div>
 
 	<script>
-		const n = NUMUSERS; // Load in number of users from logic file
+  var n = 0;
+if (queryParams.has('num_users')) {
+    n = 3 = parseInt(queryParams.get('num_users'));
+    } else {
+      n = 1;
+    }
+    
 
 		// Compliment messages up to 4 players 
 		const texts = [
