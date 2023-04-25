@@ -51,25 +51,27 @@ let frames = {
     frames.socket.onmessage = function (event) {
       switch(frames.app_state) {
         case START:
-          frames.wait_and_transition(5, TUTORIAL, tutorialFile);
-          // let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
-          // // console.log("user_raising_hand: " + user_raising_hand);
-          // if (user_raising_hand) {
-          //   console.log("hand raised in start");
-          //   frames.transition(TUTORIAL, tutorialFile);
-          // }
+          // frames.wait_and_transition(5, TUTORIAL, tutorialFile);
+          let user_raising_hand = frames.is_user_raising_hand(JSON.parse(event.data));
+          // console.log("user_raising_hand: " + user_raising_hand);
+          if (user_raising_hand) {
+            console.log("hand raised in start");
+            frames.transition(TUTORIAL, tutorialFile);
+          }
           break;
         case TUTORIAL:
           // console.log("in tutorial");
-          frames.wait_and_transition(5, NUMUSERS, numUsersFile);
-          // let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
-          // console.log("t pose checked");
-          // if (user_t_posing) {
-          //   console.log("t pose detected in tutorial");
-          //   frames.transition_to_state(NUMUSERS);
-          // }
+          // frames.wait_and_transition(5, NUMUSERS, numUsersFile);
+          let user_t_posing = frames.is_user_t_posing(JSON.parse(event.data));
+          if (user_t_posing) {
+            console.log("t pose detected in tutorial");
+            frames.transition(NUMUSERS, numUsersFile);
+          }
           break;
         case NUMUSERS:
+          let num_users = frames.get_user_position(JSON.parse(event.data));
+          frames.num_users = num_users;
+          console.log(frames.num_users);
           frames.wait_and_transition(5, ACCOMPLISHMENTS, accomplishmentsFile);
           break;
         case ACCOMPLISHMENTS:
@@ -116,6 +118,24 @@ let frames = {
       //   frames.transition_to_state(START);
       // }
       // return;
+    }
+  },
+
+  get_user_position: function (frame) {
+    if (frame.people.length < 1) {
+      return false; // no people in the frame
+    }
+
+    let pelvis_x = frame.people[0].joints[0].position.x;
+
+    if (pelvis_x < 320) {
+      return 1;
+    } else if (pelvis_x < 640) {
+      return 2;
+    } else if (pelvis_x < 960) {
+      return 3;
+    } else {
+      return 4;
     }
   },
 
