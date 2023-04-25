@@ -22,6 +22,8 @@ const powerPoseFile = "6powerPose.html";
 const CONCLUSION = 7;
 const conclusionFile = "7conclusion.html";
 
+let current_position = null;
+
 let frames = {
   socket: null,
   timer_end: null,
@@ -69,8 +71,8 @@ let frames = {
           }
           break;
         case NUMUSERS:
-          let num_users = frames.get_user_position(JSON.parse(event.data));
-          frames.num_users = num_users;
+          current_position = frames.get_user_position(JSON.parse(event.data));
+          frames.num_users = current_position;
           console.log(frames.num_users);
           frames.wait_and_transition(5, ACCOMPLISHMENTS, accomplishmentsFile);
           break;
