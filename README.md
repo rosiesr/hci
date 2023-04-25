@@ -23,7 +23,9 @@ This project addresses mental wellness on campus. The purpose is to provide a de
     -The power pose is a light hearted way to physically engage people in an action that can increase confidence and reduce stress. We also have poses for multiple people to be able to engage with friends. 
 
 ## Constraints
+
 This project has few constraints: 
+
 *It requires enough physical space to perform the power poses
 *If a user stands too far or too close to the display, it will not always function properly
 *Only one person can be in the frame at a time when answering questions with spatial positioning. 
