@@ -19,13 +19,47 @@
       <div class="prompt"> How many people are participating? </div>
     </div>
 		<div class="sections">
-			<div class="section">1</div>
-			<div class="section">2</div>
-			<div class="section">3</div>
-			<div class="section">4</div>
+			<div id="div1" class="section">1</div>
+			<div id="div2" class="section">2</div>
+			<div id="div3" class="section">3</div>
+			<div id="div4" class="section">4</div>
 		</div>
 		<div class="bottom">All participants should stand in the same segment to select an answer</div>
 	</div>
     <script src="logic.js"></script>
+    <script>
+      console.log(current_position);
+      var div1 = document.getElementById("div1");
+      // console.log(div1);
+      var div2 = document.getElementById("div2");
+      var div3 = document.getElementById("div3");
+      var div4 = document.getElementById("div4");
+
+
+      if(current_position == 1){
+        div1.style.color = "#000000";
+      } else{
+        div1.style.color = "#7101A6";
+      }
+
+      if(current_position == 2){
+        div2.style.color = "black";
+      } else{
+        div2.style.color = "#7101A6";
+      }
+
+      if(current_position == 3){
+        div3.style.color = "black";
+      } else{
+        div3.style.color = "#7101A6";
+      }
+
+      if(current_position == 4){
+        div4.style.color = "black";
+      } else{
+        div4.style.color = "#7101A6";
+      }
+
+      </script>
   </body>
 </html>

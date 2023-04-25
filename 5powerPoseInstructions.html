@@ -29,7 +29,13 @@
 
     
 	<script>
-		const n = NUMUSERS; // Load in number of users from logic file
+        // Load in number of users from logic file
+        var n= 1;
+        if (queryParams.has('num_users')) {
+            n = parseInt(queryParams.get('num_users'));
+            } else {
+                n = 1;
+            }
 
         // Instructions for single vs. multp players
         const single_player_txt = "Copy the power poses in order to get empowered.";
